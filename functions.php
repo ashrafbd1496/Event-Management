@@ -1,43 +1,54 @@
 <?php
 
-function check_elementor_status()
+/**
+ * Functions and definitions
+ *
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ *
+ * @package event-management
+ * @since 1.0.0
+ */
+include __DIR__ . '/custom-post-types/sponsor/sponsor.php';
+include __DIR__ . '/inc/carbon-fields/vendor/autoload.php';
+include __DIR__ . '/inc/options.php';
+
+//include get_template_directory() . '/custom-post-types/sponsor/sponsor.php';
+
+/**
+ * Add theme support.
+ */
+function event_management_setup()
 {
-    // Check if Elementor plugin is active
-    if (is_plugin_active('elementor/elementor.php')) {
-        // Elementor is active
-        return true;
-    } else {
-        // Elementor is not active
-        return false;
-    }
+	/*
+* Load additional block styles.
+*/
+	$styled_blocks = ['quote'];
+	foreach ($styled_blocks as $block_name) {
+		$args = array(
+			'handle' => "event-management-$block_name",
+			'src' => get_theme_file_uri("assets/css/blocks/$block_name.css"),
+			'path' => get_theme_file_path("assets/css/blocks/$block_name.css"),
+		);
+		// Replace the "core" prefix if you are styling blocks from plugins.
+		wp_enqueue_block_style("core/$block_name", $args);
+	}
 }
+add_action('after_setup_theme', 'event_management_setup');
 
-function display_elementor_notice()
+/**
+ * Enqueue the CSS files.
+ *
+ * @since 1.0.0
+ *
+ * @return void
+ */
+function event_management_styles()
 {
-    if (!check_elementor_status()) {
-?>
-        <div class="notice notice-error is-dismissible">
-            <p><?php _e('Elementor is not active. Please activate Elementor to use this functionality.', 'evnt-mngmnt'); ?></p>
-        </div>
-<?php
-    }
+	wp_enqueue_style(
+		'event-management-style',
+		get_stylesheet_uri(),
+		[],
+		wp_get_theme()->get('Version')
+	);
 }
-
-add_action('admin_notices', 'display_elementor_notice');
-
-
-
-
-
-
-
-
-
-
-
-
-function enqueue_parent_theme_styles()
-{
-    wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
-}
-add_action('wp_enqueue_scripts', 'enqueue_parent_theme_styles');
+add_action('wp_enqueue_scripts', 'event_management_styles');
