@@ -1,9 +1,3 @@
 <?php
-/**
- * This file has been left empty on purpose.
- *
- * @link https://core.trac.wordpress.org/ticket/54272
- *
- * @package event-management
- * @since 1.0.0
- */
+//Silnece is golden
+die('You can not be here');
