@@ -29,6 +29,8 @@ if (!class_exists('EvntManagementPlugin')) {
 
             require_once(EVNT_MNGMNT_PLUGIN_PATH . '/carbon-fields/vendor/autoload.php');
 
+            require_once(EVNT_MNGMNT_PLUGIN_PATH . '/lib/event-mngmnt-elementor-widgets.php');
+
             //create custom post type
             add_action('init', array($this, 'create_evnt_mngmnt_custom_post'));
 
@@ -176,20 +178,20 @@ if (!class_exists('EvntManagementPlugin')) {
 
         public function load_assets()
         {
-            wp_enqueue_style('bootstrap-css', 'https://ajax.aspnetcdn.com/ajax/bootstrap/5.2.3/css/bootstrap.css');
+            wp_enqueue_style('tailwind-css', 'https://cdn.tailwindcss.com', ['jquery'], '3.3.3', false);
 
             wp_enqueue_style(
-                'myctform-stylesheet.css',
-                plugin_dir_url(__FILE__) . 'assets/css/myctform-stylesheet.css',
-                ['bootstrap'],
+                'evnt-mngmnt-stylesheet',
+                plugin_dir_url(__FILE__) . 'assets/css/evnt-mngmnt-stylesheet.css',
+                ['tailwind-css'],
                 'all'
             );
 
-            wp_enqueue_script('bootstrap-js', 'https://ajax.aspnetcdn.com/ajax/bootstrap/5.2.3/bootstrap.js', array('jquery'), null, true);
+            // wp_enqueue_script('bootstrap-js', 'https://ajax.aspnetcdn.com/ajax/bootstrap/5.2.3/bootstrap.js', array('jquery'), null, true);
 
             wp_enqueue_script(
-                'ctform-script.js',
-                plugin_dir_url(__FILE__) . 'assets/js/ctform-script.js',
+                'evnt-mngmnt-script',
+                plugin_dir_url(__FILE__) . 'assets/js/evnt-mngmnt-script.js',
                 ['jquery'],
                 null,
                 true
